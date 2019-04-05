@@ -5,62 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Actor : MonoBehaviour
 {
-
-  #region Enums
-
-  public enum TargetSelectionRule
-  {
-    AnyAvailable,
-    HighestHealth,
-    StrongestAttack
-  }
   public TargetSelectionRule targetSelectionRule;
-
-
-  public enum ActionTarget
-  {
-    MeleeEnemy,
-    AnyEnemy,
-    AnyAlly,
-    AllEnemy,
-    AllAlly
-  }
-
-  public enum ActionEffect
-  {
-    Normal,
-    Disable,
-    Heal
-  }
-
-  public enum ActionSource
-  {
-    Weapon,
-    Life,
-    Death,
-    Fire,
-    Earth,
-    Water,
-    Air
-  }
-
-  public enum Position
-  {
-    left_rear_center,
-    left_rear_bottom,
-    left_rear_top,
-    left_front_center,
-    left_front_bottom,
-    left_front_top,
-    right_rear_center,
-    right_rear_bottom,
-    right_rear_top,
-    right_front_center,
-    right_front_bottom,
-    right_front_top,
-  }
-
-  #endregion
 
   [Tooltip("Don't change this property; it should be read-only.")]
   public Actor currentTarget;

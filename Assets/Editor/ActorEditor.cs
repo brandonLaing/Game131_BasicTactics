@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 [CustomEditor(typeof(Actor))]
 [CanEditMultipleObjects]
@@ -10,8 +11,6 @@ public class ActorEditor : Editor
 {
   bool showHealth = false, showCombat = false, rareActor = false, showImmunities = false, showBoardPosition = false;
   int maxHealthUpperBound = 1000;
-
-
 
   public override void OnInspectorGUI()
   {
@@ -83,10 +82,10 @@ public class ActorEditor : Editor
       actorScript.percentChanceToHit = EditorGUILayout.IntSlider(new GUIContent("Percent Chance to Hit", "Locked between 0 and 100"), actorScript.percentChanceToHit, 0, 100);
 
       // Target selection
-      actorScript.actionTarget = (Actor.ActionTarget)EditorGUILayout.EnumFlagsField(new GUIContent("Action Target", "What kind of target this will actor will prioritize"), actorScript.actionTarget);
-      actorScript.actionEffectSource = (Actor.ActionSource)EditorGUILayout.EnumFlagsField(new GUIContent("Action Effect Source", "Source of combat effect"), actorScript.actionEffectSource);
-      actorScript.actionEffect = (Actor.ActionEffect)EditorGUILayout.EnumFlagsField(new GUIContent("Action Effect", "Effect source is making"), actorScript.actionEffect);
-      actorScript.targetSelectionRule = (Actor.TargetSelectionRule)EditorGUILayout.EnumFlagsField(new GUIContent("Target Selection Rule", "How actor selects its target"), actorScript.targetSelectionRule);
+      actorScript.actionTarget = (ActionTarget)EditorGUILayout.EnumFlagsField(new GUIContent("Action Target", "What kind of target this will actor will prioritize"), actorScript.actionTarget);
+      actorScript.actionEffectSource = (ActionSource)EditorGUILayout.EnumFlagsField(new GUIContent("Action Effect Source", "Source of combat effect"), actorScript.actionEffectSource);
+      actorScript.actionEffect = (ActionEffect)EditorGUILayout.EnumFlagsField(new GUIContent("Action Effect", "Effect source is making"), actorScript.actionEffect);
+      actorScript.targetSelectionRule = (TargetSelectionRule)EditorGUILayout.EnumFlagsField(new GUIContent("Target Selection Rule", "How actor selects its target"), actorScript.targetSelectionRule);
 
       // Immunities
       showImmunities = EditorGUILayout.Foldout(showImmunities, new GUIContent($"Current Immunities: {AllImmunities(actorScript)}", "Open to set immunities"), true);
@@ -96,29 +95,29 @@ public class ActorEditor : Editor
 
         bool weapon = false, life = false, death = false, fire = false, earth = false, water = false, air = false;
         // Get the current status of each 
-        List<Actor.ActionSource> immunitiesList = actorScript.immunities.OfType<Actor.ActionSource>().ToList();
-        foreach (Actor.ActionSource source in immunitiesList)
+        List<ActionSource> immunitiesList = actorScript.immunities.OfType<ActionSource>().ToList();
+        foreach (ActionSource source in immunitiesList)
           switch (source)
           {
-            case Actor.ActionSource.Weapon:
+            case ActionSource.Weapon:
               weapon = true;
               break;
-            case Actor.ActionSource.Life:
+            case ActionSource.Life:
               life = true;
               break;
-            case Actor.ActionSource.Death:
+            case ActionSource.Death:
               death = true;
               break;
-            case Actor.ActionSource.Fire:
+            case ActionSource.Fire:
               fire = true;
               break;
-            case Actor.ActionSource.Earth:
+            case ActionSource.Earth:
               earth = true;
               break;
-            case Actor.ActionSource.Water:
+            case ActionSource.Water:
               water = true;
               break;
-            case Actor.ActionSource.Air:
+            case ActionSource.Air:
               air = true;
               break;
           }
@@ -131,13 +130,20 @@ public class ActorEditor : Editor
         water = EditorGUILayout.Toggle("Water", water);
         air = EditorGUILayout.Toggle("Air", air);
 
-        UpdateImmunitiesList(weapon, immunitiesList, Actor.ActionSource.Weapon);
-        UpdateImmunitiesList(life, immunitiesList, Actor.ActionSource.Life);
-        UpdateImmunitiesList(death, immunitiesList, Actor.ActionSource.Death);
-        UpdateImmunitiesList(fire, immunitiesList, Actor.ActionSource.Fire);
-        UpdateImmunitiesList(earth, immunitiesList, Actor.ActionSource.Earth);
-        UpdateImmunitiesList(water, immunitiesList, Actor.ActionSource.Water);
-        UpdateImmunitiesList(air, immunitiesList, Actor.ActionSource.Air);
+        bool[] effects = { weapon, life, death, fire, earth, water, air };
+        ActionSource[] actionSources = 
+        {
+          ActionSource.Weapon, ActionSource.Life, ActionSource.Death, ActionSource.Fire,
+          ActionSource.Earth, ActionSource.Water, ActionSource.Air
+        };
+
+        UpdateImmunitiesList(weapon, immunitiesList, ActionSource.Weapon);
+        UpdateImmunitiesList(life, immunitiesList, ActionSource.Life);
+        UpdateImmunitiesList(death, immunitiesList, ActionSource.Death);
+        UpdateImmunitiesList(fire, immunitiesList, ActionSource.Fire);
+        UpdateImmunitiesList(earth, immunitiesList, ActionSource.Earth);
+        UpdateImmunitiesList(water, immunitiesList, ActionSource.Water);
+        UpdateImmunitiesList(air, immunitiesList, ActionSource.Air);
 
         actorScript.immunities = immunitiesList.ToArray();
 
@@ -151,9 +157,20 @@ public class ActorEditor : Editor
     #region Board position
 
     #endregion
+
+    EditorGUILayout.Space();
+    EditorGUILayout.Space();
+    EditorGUILayout.Space();
+    EditorGUILayout.Space();
+
+    actorScript.immunities = 
+      CheckboxList("Immunities", actorScript.immunities, 
+      Enum.GetValues(typeof(ActionSource)) as ActionSource[],
+      Enum.GetNames(typeof(ActionSource)) as string[], 3);
+
   }
 
-  private static void UpdateImmunitiesList(bool sourceTypeBool, List<Actor.ActionSource> immunitiesList, Actor.ActionSource source)
+  private static void UpdateImmunitiesList(bool sourceTypeBool, List<ActionSource> immunitiesList, ActionSource source)
   {
     if (sourceTypeBool && !immunitiesList.Contains(source))
       immunitiesList.Add(source);
@@ -172,5 +189,66 @@ public class ActorEditor : Editor
     }
 
     return immunitieString;
+  }
+
+  /// <summary>
+  /// Takes an enum and creates a toggle list out of the possible enums for that selection
+  /// </summary>
+  /// <typeparam name="T">Any enum</typeparam>
+  /// <param name="label">Lable to show over list</param>
+  /// <param name="selectedValuesArray">Values already selected</param>
+  /// <param name="possibleValues">All possible values of enum to select from</param>
+  /// <param name="valueNames">List of names for each corrosponding value</param>
+  /// <param name="itemsPerRow">Number of selections per row</param>
+  private static T[] CheckboxList<T>(string label, T[] selectedValuesArray, T[] possibleValues, string[] valueNames, int itemsPerRow) where T : Enum
+  {
+    // Get the array and turn it into a list
+    List<T> selectedValuesList = selectedValuesArray.OfType<T>().ToList();
+    // Make a bool array of the same size as possible values
+    bool[] boolArr = new bool[possibleValues.Length];
+
+    // go though the whole bool array
+    for (int i = 0; i < boolArr.Length; i++)
+    {
+      // As we go though each one check if thats possible values is contained within the selected ones
+      if (selectedValuesList.Contains(possibleValues[i]))
+        // if it is set that bool to true
+        boolArr[i] = true;
+      else
+        // if not set it to false
+        boolArr[i] = false;
+    }
+
+    EditorGUILayout.BeginHorizontal();
+    EditorGUILayout.LabelField(label, GUILayout.MaxWidth(100));
+
+    EditorGUILayout.BeginVertical();
+    for (int r = 0; r < boolArr.Length; r += itemsPerRow)
+    {
+      EditorGUILayout.BeginHorizontal();
+      for (int i = r; i < r + itemsPerRow && i < boolArr.Length; i++)
+      {
+        if (valueNames[i].Length > 5)
+          boolArr[i] = GUILayout.Toggle(boolArr[i], valueNames[i] + "\t");
+        else
+          boolArr[i] = GUILayout.Toggle(boolArr[i], valueNames[i] + "\t\t");
+
+        if (boolArr[i] && !selectedValuesList.Contains(possibleValues[i]))
+          selectedValuesList.Add(possibleValues[i]);
+        else if (!boolArr[i] && selectedValuesList.Contains(possibleValues[i]))
+          selectedValuesList.Remove(possibleValues[i]);
+      }
+      EditorGUILayout.EndHorizontal();
+    }
+    EditorGUILayout.EndVertical();
+
+    EditorGUILayout.EndHorizontal();
+
+    return selectedValuesList.ToArray();
+    // So i want to get an array which would be something like the immunities array from actor
+    // I want to turn that array into a list of that enum. Then make a bool[] for each enum
+    // and make the bool true or false based on if the list contains that enum. Then display a
+    // toggle for each bool showing its correct state and get the responce back. Update the list
+    // and return back the list as an array
   }
 }
