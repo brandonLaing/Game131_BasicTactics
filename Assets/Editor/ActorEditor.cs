@@ -231,7 +231,7 @@ public class ActorEditor : Editor
         if (valueNames[i].Length > 5)
           boolArr[i] = GUILayout.Toggle(boolArr[i], valueNames[i] + "\t");
         else
-          boolArr[i] = GUILayout.Toggle(boolArr[i], valueNames[i] + "\t\t");
+          boolArr[i] = GUILayout.Toggle(boolArr[i], valueNames[i] + "\t");
 
         if (boolArr[i] && !selectedValuesList.Contains(possibleValues[i]))
           selectedValuesList.Add(possibleValues[i]);
