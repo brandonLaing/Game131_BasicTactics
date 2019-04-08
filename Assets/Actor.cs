@@ -178,6 +178,4 @@ public class Actor : MonoBehaviour
   }
 
   #endregion
-
-
 }

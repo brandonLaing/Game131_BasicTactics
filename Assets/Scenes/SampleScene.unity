@@ -227,7 +227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 707.22894, y: 205.40884}
+  m_AnchoredPosition: {x: 1499.4836, y: 391.25494}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &114893007
@@ -377,16 +377,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSelectionRule: 2
-  currentTarget: {fileID: 916292714}
+  currentTarget: {fileID: 147497486}
   actorName: Skeleton
   maxHitPoints: 100
   hitPoints: 100
   initiative: 50
-  actionTarget: 0
+  actionTarget: -1
   damage: 25
   actionEffect: 0
   actionEffectSource: 0
-  immunities: 02000000
+  immunities: 
   percentChanceToHit: 75
   boardPosition: 9
 --- !u!1 &151510684
@@ -423,7 +423,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2.3288574, y: 272.07407}
+  m_AnchoredPosition: {x: 147.94507, y: 518.23627}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &151510686
@@ -502,7 +502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 347.6601, y: 204.54414}
+  m_AnchoredPosition: {x: 814.59064, y: 389.6079}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &157431812
@@ -652,7 +652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 678.15027, y: 270.69492}
+  m_AnchoredPosition: {x: 1444.0956, y: 515.6094}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &172994896
@@ -1093,7 +1093,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -38.065857, y: 206.9247}
+  m_AnchoredPosition: {x: 79.87457, y: 394.14227}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &611929592
@@ -1467,13 +1467,13 @@ MonoBehaviour:
   currentTarget: {fileID: 147497486}
   actorName: Knight
   maxHitPoints: 100
-  hitPoints: 100
+  hitPoints: 75
   initiative: 50
-  actionTarget: 0
+  actionTarget: 3
   damage: 25
   actionEffect: 0
-  actionEffectSource: 0
-  immunities: 
+  actionEffectSource: 6
+  immunities: 0000000002000000
   percentChanceToHit: 75
   boardPosition: 3
 --- !u!1001 &985104821
@@ -1624,7 +1624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -80.04224, y: 125.581665}
+  m_AnchoredPosition: {x: -0.080566406, y: 239.20319}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1118048225
@@ -1817,7 +1817,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 331.04095, y: 268.62024}
+  m_AnchoredPosition: {x: 782.9352, y: 511.6576}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1274770187
@@ -2014,7 +2014,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 317.76202, y: 203.02121}
+  m_AnchoredPosition: {x: 757.6419, y: 386.70706}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1496006391
@@ -2052,7 +2052,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Knight
 
-    100/100'
+    75/100'
 --- !u!222 &1496006392
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2204,7 +2204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 301.14066, y: 121.116684}
+  m_AnchoredPosition: {x: 725.9822, y: 230.69843}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1750059255
@@ -2327,7 +2327,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 336.22446, y: 269.31415}
+  m_AnchoredPosition: {x: 792.8086, y: 512.9793}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1846899135
@@ -2406,7 +2406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 361.7078, y: 123.35454}
+  m_AnchoredPosition: {x: 841.3482, y: 234.96103}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1897393446
@@ -2485,7 +2485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 740.57965, y: 123.90906}
+  m_AnchoredPosition: {x: 1563.0089, y: 236.01727}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2064452602
