@@ -11,7 +11,7 @@ public class ActorEditor : Editor
 {
   bool rareActor = false;
   bool showHealth = true, showCombat = true;
-  bool showChooseImmunities = false, /*showChooseBoardPosition = false,*/ showChooseActionSource, showChooseActionTarget = false, showChooseActionEffect = false, showChooseTargetSelection = false;
+  bool showChooseImmunities = false, showChooseBoardPosition = false, showChooseActionSource, showChooseActionTarget = false, showChooseActionEffect = false, showChooseTargetSelection = false;
   int maxHealthUpperBound = 1000;
 
   public override void OnInspectorGUI()
@@ -127,98 +127,140 @@ public class ActorEditor : Editor
 
     // Board position
     #region Board position
-
-    #endregion
-
-
-    EditorGUILayout.Space();
-    EditorGUILayout.Space();
-    EditorGUILayout.Space();
-    EditorGUILayout.Space();
-    EditorGUILayout.Space();
-
-    actorScript.boardPosition = (Position)EditorGUILayout.EnumPopup("thing", actorScript.boardPosition);
-
-    string[] splitPosition = (actorScript.boardPosition.ToString()).Split('_');
-
-    bool[] positionInfo = new bool[2];
-    string side = splitPosition[0];
-    string forwardBack = splitPosition[1];
-    string topToBot = splitPosition[2];
-
-    if (side == "left")
-      positionInfo[0] = true;
-    else
-      positionInfo[0] = false;
-
-    EditorGUILayout.BeginHorizontal();
-    bool temp = positionInfo[0];
-
-    bool sideResult = ChooseSide(temp);
-
-    //if (sideResult)
-    //actorScript.boardPosition = Position.left_front_center;
-    //else
-    //actorScript.boardPosition = Position.right_front_center; 
-
-    EditorGUILayout.EndHorizontal();
-
-    string[] positionsLeft = new string[] {"Back Top\t", "Front Top", "Back Mid\t", "Front Mid", "Back Bot\t", "Front Bot" };
-    string[] positionsRight = new string[] { "Front Top", "Back Top", "Front Mid", "Back Mid", "Front Bot", "Back Bot" };
-
-    string thing = forwardBack + topToBot;
-
-    bool[] positions = new bool[6];
-
-    switch (thing)
+    string positionDropdownDisplay = actorScript.boardPosition.ToString().Replace('_', ' ');
+    showChooseBoardPosition = EditorGUILayout.Foldout(showChooseBoardPosition, new GUIContent($"Current Position: {positionDropdownDisplay}", "Shows all combat stats and displays current target on dropdown"), true);
+    if (showChooseBoardPosition)
     {
-      case "fronttop":
-        Debug.Log("Front Top");
-        if (sideResult)
-          positions[0] = true;
-        else
-          positions[1] = true;
-        break;
 
-      case "frontcenter":
-        Debug.Log("Front Mid");
-        if (sideResult)
-          positions[3] = true;
-        else
-          positions[2] = true;
-        break;
 
-      case "frontbottom":
-        Debug.Log("Front Bottom");
-        break;
-      case "backtop":
-        Debug.Log("Back Top");
-        break;
-      case "backcenter":
-        Debug.Log("Back Center");
-        break;
-      case "backbottom":
-        Debug.Log("Back Bottom");
-        break;
-    }
+      actorScript.boardPosition = (Position)EditorGUILayout.EnumPopup("Current Position", actorScript.boardPosition);
 
-    int num = 0;
-    EditorGUILayout.BeginVertical();
-    for (int r = 0; r < 3; r++)
-    {
-      EditorGUILayout.BeginHorizontal();
-      for (int i = 0; i < 2; i++)
+      bool[] positionsNotSide = new bool[6];
+      string[] splitPosition = (actorScript.boardPosition.ToString()).Split('_');
+      string positionString = "";
+      string basePostion = splitPosition[1] + '_' + splitPosition[2];
+
+      string side = splitPosition[0];
+      bool positionSideInfo;
+      if (side == "left")
+        positionSideInfo = true;
+      else
+        positionSideInfo = false;
+
+      string forwardBack = splitPosition[1];
+      bool frontBack;
+      if (forwardBack == "front")
+        frontBack = true;
+      else
+        frontBack = false;
+
+      string topToBot = splitPosition[2];
+      switch (topToBot)
       {
-        if (sideResult)
-          GUILayout.Toggle(positions[num], positionsLeft[num]);
-        else
-          GUILayout.Toggle(positions[num], positionsRight[num]);
-
-        num += 1;
+        case "top":
+          // if left
+          // if front
+          if (frontBack)
+          {
+            positionsNotSide[1] = true;
+          }
+          // if back
+          else
+          {
+            positionsNotSide[0] = true;
+          }
+          break;
+        case "center":
+          if (frontBack)
+          {
+            positionsNotSide[3] = true;
+          }
+          // if back
+          else
+          {
+            positionsNotSide[2] = true;
+          }
+          break;
+        case "bottom":
+          if (frontBack)
+          {
+            positionsNotSide[5] = true;
+          }
+          // if back
+          else
+          {
+            positionsNotSide[4] = true;
+          }
+          break;
       }
+
+      EditorGUILayout.BeginHorizontal();
+
+      bool sideResult = ChooseSide(positionSideInfo);
+      if (sideResult)
+        positionString = "left_";
+      else
+        positionString = "right_";
+
       EditorGUILayout.EndHorizontal();
+
+      string thing = forwardBack + topToBot;
+
+      int num = 0;
+      bool switched = false;
+      string[] positionsLeft = new string[] { "Back Top\t", "Front Top", "Back Mid\t", "Front Mid", "Back Bot\t", "Front Bot" };
+      EditorGUILayout.BeginVertical();
+      for (int r = 0; r < 3; r++)
+      {
+        EditorGUILayout.BeginHorizontal();
+        for (int i = 0; i < 2; i++)
+        {
+          bool boo = GUILayout.Toggle(positionsNotSide[num], positionsLeft[num]);
+          if (boo != false && boo != positionsNotSide[num])
+          {
+            switched = true;
+            switch (num)
+            {
+              case 0:
+                positionString += "rear_top";
+                break;
+              case 1:
+                positionString += "front_top";
+                break;
+              case 2:
+                positionString += "rear_center";
+                break;
+              case 3:
+                positionString += "front_center";
+                break;
+              case 4:
+                positionString += "rear_bottom";
+                break;
+              case 5:
+                positionString += "front_bottom";
+                break;
+            }
+          }
+          num += 1;
+        }
+        EditorGUILayout.EndHorizontal();
+      }
+      EditorGUILayout.EndVertical();
+      if (switched == false)
+      {
+        positionString += basePostion;
+      }
+
+      for (int i = 0; i < Enum.GetValues(typeof(Position)).Length; i++)
+      {
+        if (positionString == Enum.GetName(typeof(Position), i))
+        {
+          actorScript.boardPosition = (Position)i;
+        }
+      }
+      Debug.Log(positionString);
     }
-    EditorGUILayout.EndVertical();
+    #endregion
   }
 
   private static bool ChooseSide(bool temp)
