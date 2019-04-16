@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [ExecuteInEditMode]
 public class Actor : MonoBehaviour
@@ -73,6 +74,7 @@ public class Actor : MonoBehaviour
     {
       return null;
     }
+    /** Old Targeting
     switch (targetSelectionRule)
     {
       case TargetSelectionRule.AnyAvailable:
@@ -99,6 +101,44 @@ public class Actor : MonoBehaviour
         return availableTargets[highestAttackIndexes[Random.Range(0, highestAttackIndexes.Count)]];
     }
     return availableTargets[Random.Range(0, availableTargets.Count)];
+    */
+
+    Actor newTarget;
+    switch (actionEffect)
+    {
+      case ActionEffect.Normal:
+        newTarget = availableTargets
+          .Where(a => a.hitPoints <= damage)
+          .OrderBy(x => Random.value)
+          .First();
+
+        if (newTarget != null)
+          return newTarget;
+        else
+          return availableTargets
+            .OrderBy(x => Random.value)
+            .First();
+
+      case ActionEffect.Disable:
+        newTarget = availableTargets
+          .OrderBy(a => a.damage)
+          .OrderBy(x => Random.value)
+          .First();
+
+          return newTarget;
+
+      case ActionEffect.Heal:
+        newTarget = availableTargets
+          .OrderByDescending(a => a.hitPoints / a.maxHitPoints)
+          .OrderBy(r => Random.value)
+          .First();
+
+        return newTarget;
+    }
+
+    return availableTargets
+      .OrderBy(a => Random.value)
+      .First();
   }
 
   #region Target selection core (do not change)
