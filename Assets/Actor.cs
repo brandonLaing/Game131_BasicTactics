@@ -74,46 +74,19 @@ public class Actor : MonoBehaviour
     {
       return null;
     }
-    /** Old Targeting
-    switch (targetSelectionRule)
-    {
-      case TargetSelectionRule.AnyAvailable:
-        return availableTargets[Random.Range(0, availableTargets.Count)];
-      case TargetSelectionRule.HighestHealth:
-        int highestHealth = 0;
-        for (int i = 0; i < availableTargets.Count; i++)
-          if (availableTargets[i].hitPoints > highestHealth)
-            highestHealth = availableTargets[i].hitPoints;
-        List<int> highestHealthIndexes = new List<int>();
-        for (int i = 0; i < availableTargets.Count; i++)
-          if (availableTargets[i].hitPoints == highestHealth)
-            highestHealthIndexes.Add(i);
-        return availableTargets[highestHealthIndexes[Random.Range(0, highestHealthIndexes.Count)]];
-      case TargetSelectionRule.StrongestAttack:
-        int highestAttack = 0;
-        for (int i = 0; i < availableTargets.Count; i++)
-          if (availableTargets[i].damage > highestAttack)
-            highestAttack = availableTargets[i].damage;
-        List<int> highestAttackIndexes = new List<int>();
-        for (int i = 0; i < availableTargets.Count; i++)
-          if (availableTargets[i].damage == highestAttack)
-            highestAttackIndexes.Add(i);
-        return availableTargets[highestAttackIndexes[Random.Range(0, highestAttackIndexes.Count)]];
-    }
-    return availableTargets[Random.Range(0, availableTargets.Count)];
-    */
 
     Actor newTarget;
+    List<Actor> refinedList;
     switch (actionEffect)
     {
       case ActionEffect.Normal:
-        newTarget = availableTargets
-          .Where(a => a.hitPoints <= damage)
-          .OrderBy(x => Random.value)
-          .First();
+        refinedList = availableTargets
+          .Where(a => a.hitPoints <= damage) as List<Actor>;
 
-        if (newTarget != null)
-          return newTarget;
+        if (refinedList  != null && refinedList.Any())
+          return refinedList
+            .OrderBy(x => Random.value)
+          .First();
         else
           return availableTargets
             .OrderBy(x => Random.value)
