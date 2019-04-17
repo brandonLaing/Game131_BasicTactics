@@ -258,7 +258,6 @@ public class ActorEditor : Editor
           actorScript.boardPosition = (Position)i;
         }
       }
-      Debug.Log(positionString);
     }
     #endregion
   }

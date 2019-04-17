@@ -74,19 +74,31 @@ public class Actor : MonoBehaviour
     {
       return null;
     }
-
-    Actor newTarget;
-    List<Actor> refinedList;
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+    sb.AppendLine($"Targeting path for {transform.name}");
+      Actor newTarget;
     switch (actionEffect)
     {
       case ActionEffect.Normal:
-        refinedList = availableTargets
-          .Where(a => a.hitPoints <= damage) as List<Actor>;
+        sb.AppendLine("Going though normal targeting");
+        var refinedLists = availableTargets
+          .Where(a => (a.hitPoints <= damage));
 
-        if (refinedList  != null && refinedList.Any())
-          return refinedList
-            .OrderBy(x => Random.value)
-          .First();
+        sb.AppendLine($"Refind list down to {refinedLists.Count()} actors");
+
+        if (refinedLists != null && refinedLists.Any())
+        {
+          refinedLists
+            .OrderBy(x => Random.value);
+
+          foreach (Actor _actor in refinedLists)
+            sb.AppendLine($"\tFound: {_actor.transform.name} Hitpoints: {_actor.hitPoints}");
+
+          Debug.Log(sb);
+          return refinedLists
+            .OrderBy(a => a.hitPoints)
+            .Last();
+        }
         else
           return availableTargets
             .OrderBy(x => Random.value)

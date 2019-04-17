@@ -193,6 +193,123 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 64835245}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &72347269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 72347274}
+  - component: {fileID: 72347273}
+  - component: {fileID: 72347272}
+  - component: {fileID: 72347271}
+  - component: {fileID: 72347270}
+  m_Layer: 0
+  m_Name: left_fighter_2
+  m_TagString: Actor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &72347270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72347269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94b9ab40cc19b445b7fe0d6d591ec0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSelectionRule: 0
+  currentTarget: {fileID: 147497486}
+  actorName: Knight
+  maxHitPoints: 100
+  hitPoints: 35
+  initiative: 50
+  actionTarget: 3
+  damage: 25
+  actionEffect: 0
+  actionEffectSource: 6
+  immunities: 0000000002000000
+  percentChanceToHit: 75
+  boardPosition: 4
+--- !u!65 &72347271
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72347269}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &72347272
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72347269}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 3d6c50f1ac2ba45489863dbfd42606cc, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &72347273
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72347269}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &72347274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72347269}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.97, y: 0.5, z: -3.965}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &114893005
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1499.4836, y: 391.25494}
+  m_AnchoredPosition: {x: 902.2222, y: 210.48067}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &114893007
@@ -362,7 +479,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &147497486
 MonoBehaviour:
@@ -376,14 +493,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94b9ab40cc19b445b7fe0d6d591ec0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSelectionRule: 2
-  currentTarget: {fileID: 147497486}
+  targetSelectionRule: 0
+  currentTarget: {fileID: 72347270}
   actorName: Skeleton
   maxHitPoints: 100
   hitPoints: 100
-  initiative: 50
-  actionTarget: -1
-  damage: 25
+  initiative: 100
+  actionTarget: 0
+  damage: 71
   actionEffect: 0
   actionEffectSource: 0
   immunities: 
@@ -423,7 +540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 147.94507, y: 518.23627}
+  m_AnchoredPosition: {x: 175.1445, y: 278.79193}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &151510686
@@ -502,7 +619,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 814.59064, y: 389.6079}
+  m_AnchoredPosition: {x: 533.77515, y: 209.59462}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &157431812
@@ -652,7 +769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1444.0956, y: 515.6094}
+  m_AnchoredPosition: {x: 872.4255, y: 277.37872}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &172994896
@@ -740,7 +857,7 @@ MonoBehaviour:
   stateLabel: {fileID: 1750059255}
   effectLabel: {fileID: 0}
   stateOffset: {x: 2.19, y: 0, z: -1.56}
-  myActor: {fileID: 0}
+  myActor: {fileID: 72347270}
 --- !u!1 &305221841 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1329420496833700, guid: d5f15a8cc98f92a49ace4045e990c06f,
@@ -1057,7 +1174,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &611929590
 GameObject:
@@ -1093,7 +1210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 79.87457, y: 394.14227}
+  m_AnchoredPosition: {x: 138.52515, y: 212.03394}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &611929592
@@ -1469,7 +1586,7 @@ MonoBehaviour:
   maxHitPoints: 100
   hitPoints: 75
   initiative: 50
-  actionTarget: 3
+  actionTarget: 0
   damage: 25
   actionEffect: 0
   actionEffectSource: 6
@@ -1624,7 +1741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.080566406, y: 239.20319}
+  m_AnchoredPosition: {x: 95.51227, y: 128.68245}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1118048225
@@ -1817,7 +1934,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 782.9352, y: 511.6576}
+  m_AnchoredPosition: {x: 516.74567, y: 275.25284}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1274770187
@@ -2014,7 +2131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 757.6419, y: 386.70706}
+  m_AnchoredPosition: {x: 503.13885, y: 208.03407}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1496006391
@@ -2204,7 +2321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 725.9822, y: 230.69843}
+  m_AnchoredPosition: {x: 486.1071, y: 124.10721}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1750059255
@@ -2240,7 +2357,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 'Knight
+
+    35/100'
 --- !u!222 &1750059256
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2327,7 +2446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 792.8086, y: 512.9793}
+  m_AnchoredPosition: {x: 522.0572, y: 275.96387}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1846899135
@@ -2406,7 +2525,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 841.3482, y: 234.96103}
+  m_AnchoredPosition: {x: 548.16974, y: 126.40033}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1897393446
@@ -2485,7 +2604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1563.0089, y: 236.01727}
+  m_AnchoredPosition: {x: 936.39636, y: 126.96854}
   m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2064452602
@@ -2633,7 +2752,7 @@ RectTransform:
   - {fileID: 172994895}
   - {fileID: 2064452601}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
