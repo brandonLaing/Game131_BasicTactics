@@ -107,9 +107,9 @@ public class ActorEditor : Editor
         actorScript.actionEffect = RadioButtonList(actorScript.actionEffect, 2);
 
       // Target Selection Rule
-      showChooseTargetSelection = EditorGUILayout.Foldout(showChooseTargetSelection, new GUIContent($"Target Selection Rule: {actorScript.targetSelectionRule.ToString()}"), true);
+      showChooseTargetSelection = EditorGUILayout.Foldout(showChooseTargetSelection, new GUIContent($"Target Selection Rule: {actorScript.targetRefiners.ToString()}"), true);
       if (showChooseTargetSelection)
-        actorScript.targetSelectionRule = RadioButtonList(actorScript.targetSelectionRule, 2);
+        actorScript.targetRefiners = CheckboxList(actorScript.targetRefiners.ToArray(), 2);
 
       // Immunities
       showChooseImmunities = EditorGUILayout.Foldout(showChooseImmunities, new GUIContent($"Current Immunities: {AllImmunities(actorScript)}", "Open to set immunities"), true);

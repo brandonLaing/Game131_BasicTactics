@@ -6,7 +6,8 @@ using System.Linq;
 [ExecuteInEditMode]
 public class Actor : MonoBehaviour
 {
-  public TargetSelectionRule targetSelectionRule;
+  public TargetSelectionRefiner[] targetRefiners = new TargetSelectionRefiner[1];
+  public TargetSelectionFinisher targetFinisher;
 
   [Tooltip("Don't change this property; it should be read-only.")]
   public Actor currentTarget;
@@ -70,60 +71,27 @@ public class Actor : MonoBehaviour
   /// </summary>
   Actor RefreshTargetSelection(List<Actor> availableTargets)
   {
-    if (availableTargets.Count == 0)
+    if (availableTargets.Count == 0 || targetRefiners.Length == 0 || availableTargets == null)
     {
       return null;
     }
-    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-    sb.AppendLine($"Targeting path for {transform.name}");
-      Actor newTarget;
-    switch (actionEffect)
+
+    List<Actor> workingActorList = new List<Actor>(availableTargets);
+    List<Actor> oldList;
+
+    for (int i = 0; i < targetRefiners.Length; i++)
     {
-      case ActionEffect.Normal:
-        sb.AppendLine("Going though normal targeting");
-        var refinedLists = availableTargets
-          .Where(a => (a.hitPoints <= damage));
+      oldList = new List<Actor>(workingActorList);
+      workingActorList = RefineList(workingActorList, targetRefiners[i]);
 
-        sb.AppendLine($"Refind list down to {refinedLists.Count()} actors");
+      if (workingActorList == null || workingActorList.Count == 0)
+        workingActorList = oldList;
 
-        if (refinedLists != null && refinedLists.Any())
-        {
-          refinedLists
-            .OrderBy(x => Random.value);
-
-          foreach (Actor _actor in refinedLists)
-            sb.AppendLine($"\tFound: {_actor.transform.name} Hitpoints: {_actor.hitPoints}");
-
-          Debug.Log(sb);
-          return refinedLists
-            .OrderBy(a => a.hitPoints)
-            .Last();
-        }
-        else
-          return availableTargets
-            .OrderBy(x => Random.value)
-            .First();
-
-      case ActionEffect.Disable:
-        newTarget = availableTargets
-          .OrderBy(a => a.damage)
-          .OrderBy(x => Random.value)
-          .First();
-
-          return newTarget;
-
-      case ActionEffect.Heal:
-        newTarget = availableTargets
-          .OrderByDescending(a => a.hitPoints / a.maxHitPoints)
-          .OrderBy(r => Random.value)
-          .First();
-
-        return newTarget;
+      if (workingActorList.Count == 1)
+        return workingActorList.First();
     }
 
-    return availableTargets
-      .OrderBy(a => Random.value)
-      .First();
+    return ActorChooser(workingActorList, targetFinisher);
   }
 
   #region Target selection core (do not change)
@@ -203,4 +171,66 @@ public class Actor : MonoBehaviour
   }
 
   #endregion
+
+  List<Actor> RefineList(List<Actor> actorList, TargetSelectionRefiner refiner)
+  {
+    switch (refiner)
+    {
+      #region Refiners
+      case TargetSelectionRefiner.AtMaxHealth:
+        return actorList.Where(a => a.hitPoints == a.maxHitPoints) as List<Actor>;
+
+      case TargetSelectionRefiner.UnderMaxHealth:
+        return actorList.Where(a => a.hitPoints < a.maxHitPoints) as List<Actor>;
+
+      case TargetSelectionRefiner.LessThanHalfHealth:
+        return actorList.Where(a => a.hitPoints < (a.maxHitPoints / 2)) as List<Actor>;
+
+      case TargetSelectionRefiner.LessThanQuaterHealth:
+        return actorList.Where(a => a.hitPoints < (a.maxHitPoints / 4)) as List<Actor>;
+
+      case TargetSelectionRefiner.Killable:
+        return actorList.Where(a => damage >= a.hitPoints) as List<Actor>;
+
+      #region Position Refiner
+      case TargetSelectionRefiner.OnFrontRow:
+        return actorList.Where(a => a.boardPosition.ToString().Split('_')[1] == "front") as List<Actor>;
+
+      case TargetSelectionRefiner.OnBackRow:
+        return actorList.Where(a => a.boardPosition.ToString().Split('_')[1] == "rear") as List<Actor>;
+
+      case TargetSelectionRefiner.InTopLane:
+        return actorList.Where(a => a.boardPosition.ToString().Split('_')[2] == "top") as List<Actor>;
+
+      case TargetSelectionRefiner.InMiddleLane:
+        return actorList.Where(a => a.boardPosition.ToString().Split('_')[2] == "center") as List<Actor>;
+
+      case TargetSelectionRefiner.InBottomLane:
+        return actorList.Where(a => a.boardPosition.ToString().Split('_')[2] == "bottom") as List<Actor>;
+      #endregion
+      #endregion
+    }
+
+    return null;
+  }
+
+  Actor ActorChooser(List<Actor> actorList, TargetSelectionFinisher finisher)
+  {
+    switch (finisher)
+    {
+      case TargetSelectionFinisher.HighestHealth:
+        return actorList.OrderBy(a => a.hitPoints).First();
+      case TargetSelectionFinisher.LowestHealth:
+        return actorList.OrderByDescending(a => a.hitPoints).First();
+
+      case TargetSelectionFinisher.StrongestAttack:
+        return actorList.OrderBy(a => a.damage).First();
+      case TargetSelectionFinisher.WeakestAttack:
+        return actorList.OrderByDescending(a => a.damage).First();
+
+      default:
+        return actorList.OrderBy(r => Random.value).First();
+    }
+
+  }
 }
