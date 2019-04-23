@@ -11,7 +11,7 @@ public class ActorEditor : Editor
 {
   bool rareActor = false;
   bool showHealth = true, showCombat = true;
-  bool showChooseImmunities = false, showChooseBoardPosition = false, showChooseActionSource, showChooseActionTarget = false, showChooseActionEffect = false, showChooseTargetSelection = false;
+  bool showChooseImmunities = false, showChooseBoardPosition = false, showChooseActionSource, showChooseActionTarget = false, showChooseActionEffect = false, showChooseTargetSelection = false, showTargetFinisher = false;
   int maxHealthUpperBound = 1000;
 
   public override void OnInspectorGUI()
@@ -107,12 +107,16 @@ public class ActorEditor : Editor
         actorScript.actionEffect = RadioButtonList(actorScript.actionEffect, 2);
 
       // Target Selection Rule
-      showChooseTargetSelection = EditorGUILayout.Foldout(showChooseTargetSelection, new GUIContent($"Target Selection Rule: {actorScript.targetRefiners.ToString()}"), true);
+      showChooseTargetSelection = EditorGUILayout.Foldout(showChooseTargetSelection, new GUIContent($"Target Selection Rules: {AllNames(actorScript.targetRefiners)}"), true);
       if (showChooseTargetSelection)
         actorScript.targetRefiners = CheckboxList(actorScript.targetRefiners.ToArray(), 2);
 
+      showTargetFinisher = EditorGUILayout.Foldout(showTargetFinisher, new GUIContent($"Target Selection Finisher: {actorScript.targetFinisher.ToString()}"), true);
+      if (showTargetFinisher)
+        RadioButtonList(actorScript.targetFinisher, 2);
+
       // Immunities
-      showChooseImmunities = EditorGUILayout.Foldout(showChooseImmunities, new GUIContent($"Current Immunities: {AllImmunities(actorScript)}", "Open to set immunities"), true);
+      showChooseImmunities = EditorGUILayout.Foldout(showChooseImmunities, new GUIContent($"Current Immunities: {AllNames(actorScript.immunities)}", "Open to set immunities"), true);
       if (showChooseImmunities)
       {
         EditorGUI.indentLevel++;
@@ -289,13 +293,13 @@ public class ActorEditor : Editor
       immunitiesList.Remove(source);
   }
 
-  private static string AllImmunities(Actor actorScript)
+  private static string AllNames<T>(T[] enums) where T : Enum
   {
     string immunitieString = "";
-    for (int i = 0; i < actorScript.immunities.Length; i++)
+    for (int i = 0; i < enums.Length; i++)
     {
-      immunitieString += actorScript.immunities[i].ToString();
-      if (i != actorScript.immunities.Length - 1)
+      immunitieString += enums[i].ToString();
+      if (i != enums.Length - 1)
         immunitieString += ", ";
     }
 
